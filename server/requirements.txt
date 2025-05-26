@@ -7,7 +7,5 @@ easyocr
 opencv-python
 torch
 PyMuPDF
-io
-os
 dotenv
 numpy
