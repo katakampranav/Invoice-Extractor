@@ -17,7 +17,7 @@ def get_structured_json(OCR_TEXT):
         Make sure to:
 
         - Include only fields that you can confidently extract from the text and meaningful to keep in invoice/ billing json data.
-        - Omit any fields or values if the information is missing or unclear.
+        - Omit any fields or values if the information is missing or unclear but don't keep the values like "", NULL etc...
         - Group related information logically under appropriate keys.
         - Format the JSON cleanly and correctly.
 
@@ -35,10 +35,11 @@ def get_structured_json(OCR_TEXT):
             messages=[{"role": "user", "content": prompt}]
         )
         final_response =  response.choices[0].message.content
+
         # Clean: strip code block markdown
-        if final_response.startswith("```"):
-            final_response = final_response.removeprefix("```").strip()
         if final_response.startswith("```json"):
+            final_response = final_response.removeprefix("```json").strip()
+        if final_response.startswith("```"):
             final_response = final_response.removeprefix("```").strip()
         if final_response.endswith("```"):
             final_response = final_response.removesuffix("```").strip()
